@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kommunens initiativportfölj</title>
+  <style>
+    :root {
+      --bg: #eef4fb;
+      --card: #ffffff;
+      --panel: #f7f9fc;
+      --text: #172033;
+      --muted: #60708b;
+      --line: #dfe7f3;
+      --primary: #1d4ed8;
+      --primary-soft: #e8f0ff;
+      --green: #15803d;
+      --green-soft: #eaf7ee;
+      --amber: #b45309;
+      --amber-soft: #fff6e6;
+      --red: #b91c1c;
+      --red-soft: #fff0f0;
+      --blue: #1d4ed8;
+      --blue-soft: #edf3ff;
+      --shadow: 0 10px 30px rgba(17, 24, 39, 0.06);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      padding: 18px 14px 24px;
+    }
+
+    .app {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .top {
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin: 0 0 8px;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      line-height: 1.1;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .summary-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 14px 14px 12px;
+    }
+
+    .summary-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin: 0 0 8px;
+      font-weight: 700;
+    }
+
+    .summary-value {
+      margin: 0;
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+
+    .card h2 {
+      margin: 0 0 16px;
+      font-size: 1.2rem;
+    }
+
+    form {
+      display: grid;
+      gap: 12px;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 11px 12px;
+      font-size: 1rem;
+      color: var(--text);
+      outline: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.12);
+    }
+
+    textarea {
+      min-height: 92px;
+      resize: vertical;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .primary-btn {
+      margin-top: 6px;
+      border: none;
+      border-radius: 12px;
+      padding: 13px 16px;
+      background: linear-gradient(135deg, var(--primary), #2563eb);
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.98rem;
+      box-shadow: 0 10px 20px rgba(29, 78, 216, 0.18);
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .list-header h2 {
+      margin: 0;
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .item {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .item-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .item-name {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.74rem;
+      margin-top: 3px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 8px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+
+    .status-planerad {
+      background: var(--blue-soft);
+      color: var(--primary);
+      border-color: #cfe0ff;
+    }
+
+    .status-pagar {
+      background: var(--green-soft);
+      color: var(--green);
+      border-color: #cdeed7;
+    }
+
+    .status-pausad {
+      background: var(--amber-soft);
+      color: var(--amber);
+      border-color: #f6d9a8;
+    }
+
+    .status-avslutad {
+      background: var(--red-soft);
+      color: var(--red);
+      border-color: #f5c5c5;
+    }
+
+    .description {
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.45;
+      margin: 0 0 10px;
+    }
+
+    .item-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .mini {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 9px;
+    }
+
+    .mini-label {
+      font-size: 0.64rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 4px;
+    }
+
+    .mini-value {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .delete-btn {
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 10px;
+      background: #fee2e2;
+      color: #991b1b;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    @media (max-width: 420px) {
+      .summary-grid, .toolbar, .grid-2, .item-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card, .summary-card {
+        border-radius: 16px;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <p class="eyebrow">Kommunens initiativportfölj</p>
+      <h1>Projekt &amp; satsningar</h1>
+    </header>
+
+    <section class="summary-grid">
+      <div class="summary-card">
+        <p class="summary-label">Total budget</p>
+        <p class="summary-value" id="totalBudget">0 kr</p>
+      </div>
+
+      <div class="summary-card">
+        <p class="summary-label">Förbrukat</p>
+        <p class="summary-value" id="totalForbrukat">0 kr</p>
+      </div>
+
+      <div class="summary-card">
+        <p class="summary-label">Kvarvarande</p>
+        <p class="summary-value" id="kvarvarande">0 kr</p>
+      </div>
+
+      <div class="summary-card">
+        <p class="summary-label">Aktiva</p>
+        <p class="summary-value" id="aktiva">0</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Lägg till initiativ</h2>
+
+      <form id="form">
+        <label>
+          Namn
+          <input id="namn" type="text" placeholder="Ex: Tryggare skolvägar" />
+        </label>
+
+        <div class="grid-2">
+          <label>
+            Kategori
+            <select id="kategori">
+              <option>Barn och unga</option>
+              <option>IT och digitalisering</option>
+              <option>Miljö</option>
+              <option>Samhällsbyggnad</option>
+              <option>Kultur</option>
+            </select>
+          </label>
+
+          <label>
+            Status
+            <select id="status">
+              <option>Planerad</option>
+              <option>Pågår</option>
+              <option>Pausad</option>
+              <option>Avslutad</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="grid-2">
+          <label>
+            Avdelning
+            <input id="avdelning" type="text" placeholder="Ex: Samhällsbyggnad" />
+          </label>
+
+          <label>
+            Ansvarig
+            <input id="ansvarig" type="text" placeholder="Ex: Anna Nilsson" />
+          </label>
+        </div>
+
+        <div class="grid-2">
+          <label>
+            Budget (kr)
+            <input id="budget" type="number" value="0" />
+          </label>
+
+          <label>
+            Förbrukat (kr)
+            <input id="forbrukat" type="number" value="0" />
+          </label>
+        </div>
+
+        <div class="grid-2">
+          <label>
+            Startdatum
+            <input id="startDatum" type="date" />
+          </label>
+
+          <label>
+            Slutdatum
+            <input id="slutDatum" type="date" />
+          </label>
+        </div>
+
+        <label>
+          Beskrivning
+          <textarea id="beskrivning" placeholder="Kort beskrivning av initiativet..."></textarea>
+        </label>
+
+        <button class="primary-btn" type="submit">Lägg till initiativ</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <div class="list-header">
+        <h2>Initiativlista</h2>
+      </div>
+
+      <div class="toolbar">
+        <select id="statusFilter">
+          <option>Alla</option>
+          <option>Planerad</option>
+          <option>Pågår</option>
+          <option>Pausad</option>
+          <option>Avslutad</option>
+        </select>
+
+        <select id="kategoriFilter">
+          <option>Alla</option>
+          <option>Barn och unga</option>
+          <option>IT och digitalisering</option>
+          <option>Miljö</option>
+          <option>Samhällsbyggnad</option>
+          <option>Kultur</option>
+        </select>
+      </div>
+
+      <div id="list" class="list"></div>
+    </section>
+  </div>
+
+  <script>
+    const storageKey = 'kommunInitiativData';
+
+    const initialProjects = [
+      {
+        id: 1,
+        namn: 'Tryggare skolvägar',
+        kategori: 'Barn och unga',
+        avdelning: 'Samhällsbyggnad',
+        ansvarigPerson: 'Anna Nilsson',
+        status: 'Pågår',
+        budget: 450000,
+        forbrukat: 210000,
+        startDatum: '2026-01-15',
+        slutDatum: '2026-12-31',
+        beskrivning: 'Ökad trygghet runt skolvägar i centrala bostadsområden.'
+      },
+      {
+        id: 2,
+        namn: 'Digital service för invånare',
+        kategori: 'IT och digitalisering',
+        avdelning: 'IT',
+        ansvarigPerson: 'Lars Eriksson',
+        status: 'Planerad',
+        budget: 800000,
+        forbrukat: 120000,
+        startDatum: '2026-03-01',
+        slutDatum: '2027-06-30',
+        beskrivning: 'Förbättra digitala tjänster för medborgare och verksamheter.'
+      },
+      {
+        id: 3,
+        namn: 'Klimatvänligt gatunät',
+        kategori: 'Miljö',
+        avdelning: 'Teknik och miljö',
+        ansvarigPerson: 'Maja Karlsson',
+        status: 'Avslutad',
+        budget: 300000,
+        forbrukat: 300000,
+        startDatum: '2025-05-10',
+        slutDatum: '2026-02-28',
+        beskrivning: 'Trädplantering och grön struktur runt gångvägar och cykelvägar.'
+      }
+    ];
+
+    let projects = JSON.parse(localStorage.getItem(storageKey)) || initialProjects;
+
+    function saveProjects() {
+      localStorage.setItem(storageKey, JSON.stringify(projects));
+    }
+
+    function formatMoney(num) {
+      return Number(num || 0).toLocaleString('sv-SE') + ' kr';
+    }
+
+    function statusClass(status) {
+      const normalized = status.toLowerCase().replace(/\s+/g, '-');
+      return 'status-' + normalized;
+    }
+
+    function renderSummary() {
+      const totalBudget = projects.reduce((sum, p) => sum + Number(p.budget || 0), 0);
+      const totalForbrukat = projects.reduce((sum, p) => sum + Number(p.forbrukat || 0), 0);
+      const kvarvarande = totalBudget - totalForbrukat;
+      const aktiva = projects.filter(p => p.status === 'Pågår' || p.status === 'Planerad').length;
+
+      document.getElementById('totalBudget').textContent = formatMoney(totalBudget);
+      document.getElementById('totalForbrukat').textContent = formatMoney(totalForbrukat);
+      document.getElementById('kvarvarande').textContent = formatMoney(kvarvarande);
+      document.getElementById('aktiva').textContent = aktiva;
+    }
+
+    function renderList() {
+      const statusValue = document.getElementById('statusFilter').value;
+      const categoryValue = document.getElementById('kategoriFilter').value;
+
+      const filtered = projects.filter(project => {
+        const statusMatch = statusValue === 'Alla' || project.status === statusValue;
+        const categoryMatch = categoryValue === 'Alla' || project.kategori === categoryValue;
+        return statusMatch && categoryMatch;
+      });
+
+      const list = document.getElementById('list');
+
+      if (!filtered.length) {
+        list.innerHTML = '<div class="item"><p class="description">Inga initiativ matchar filtret.</p></div>';
+        return;
+      }
+
+      list.innerHTML = filtered.map(project => `
+        <div class="item">
+          <div class="item-top">
+            <div>
+              <p class="item-name">${project.namn}</p>
+              <div class="meta">${project.kategori} • ${project.avdelning || 'Ej angiven'}</div>
+            </div>
+            <span class="status-badge ${statusClass(project.status)}">${project.status}</span>
+          </div>
+
+          <p class="description">${project.beskrivning || 'Ingen beskrivning angiven.'}</p>
+
+          <div class="item-grid">
+            <div class="mini">
+              <div class="mini-label">Budget</div>
+              <div class="mini-value">${formatMoney(project.budget)}</div>
+            </div>
+
+            <div class="mini">
+              <div class="mini-label">Förbrukat</div>
+              <div class="mini-value">${formatMoney(project.forbrukat)}</div>
+            </div>
+          </div>
+
+          <div class="item-grid">
+            <div class="mini">
+              <div class="mini-label">Ansvarig</div>
+              <div class="mini-value">${project.ansvarigPerson || '-'}</div>
+            </div>
+
+            <div class="mini">
+              <div class="mini-label">Datum</div>
+              <div class="mini-value">${project.startDatum || '-'} → ${project.slutDatum || '-'}</div>
+            </div>
+          </div>
+
+          <button class="delete-btn" data-id="${project.id}">Ta bort</button>
+        </div>
+      `).join('');
+
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = Number(e.target.dataset.id);
+          projects = projects.filter(p => p.id !== id);
+          saveProjects();
+          render();
+        });
+      });
+    }
+
+    function render() {
+      renderSummary();
+      renderList();
+    }
+
+    document.getElementById('form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const namn = document.getElementById('namn').value.trim();
+      if (!namn) return;
+
+      const project = {
+        id: Date.now(),
+        namn,
+        kategori: document.getElementById('kategori').value,
+        avdelning: document.getElementById('avdelning').value.trim(),
+        ansvarigPerson: document.getElementById('ansvarig').value.trim(),
+        status: document.getElementById('status').value,
+        budget: Number(document.getElementById('budget').value || 0),
+        forbrukat: Number(document.getElementById('forbrukat').value || 0),
+        startDatum: document.getElementById('startDatum').value,
+        slutDatum: document.getElementById('slutDatum').value,
+        beskrivning: document.getElementById('beskrivning').value.trim()
+      };
+
+      projects.unshift(project);
+      saveProjects();
+      document.getElementById('form').reset();
+      render();
+    });
+
+    document.getElementById('statusFilter').addEventListener('change', renderList);
+    document.getElementById('kategoriFilter').addEventListener('change', renderList);
+
+    render();
+  </script>
+</body>
+</html>
