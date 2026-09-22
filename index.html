@@ -6,23 +6,23 @@
   <title>Kommunens initiativportfölj</title>
   <style>
     :root {
-      --bg: #f3f7ff;
+      --bg: #f4f7ff;
       --bg-2: #edf3ff;
-      --card: rgba(255,255,255,0.92);
+      --card: rgba(255,255,255,0.96);
       --panel: #f9fbff;
-      --text: #142033;
-      --muted: #5d6d84;
-      --line: #dde7f3;
+      --text: #162233;
+      --muted: #5e6e87;
+      --line: #dde7f5;
       --primary: #1f63ff;
-      --primary-dark: #184ccf;
-      --primary-soft: #ebf2ff;
+      --primary-dark: #154dcd;
+      --primary-soft: #eef5ff;
       --success: #1f8f5f;
-      --success-soft: #eafaf2;
-      --warning: #b86b00;
-      --warning-soft: #fff5e7;
-      --danger: #cc3d3d;
-      --danger-soft: #ffeaea;
-      --shadow: 0 24px 60px rgba(20, 32, 51, 0.09);
+      --success-soft: #ebfaf2;
+      --warning: #b26a04;
+      --warning-soft: #fff4e0;
+      --danger: #bf3b3b;
+      --danger-soft: #ffefef;
+      --shadow: 0 18px 42px rgba(24, 41, 68, 0.08);
       --radius: 22px;
     }
 
@@ -37,11 +37,11 @@
     }
 
     body {
-      padding: 18px 14px 30px;
+      padding: 18px 14px 28px;
     }
 
     .app {
-      max-width: 760px;
+      max-width: 780px;
       margin: 0 auto;
     }
 
@@ -51,19 +51,19 @@
       align-items: center;
       gap: 12px;
       margin-bottom: 18px;
-      padding: 8px 6px 0;
+      padding: 4px 4px 0;
     }
 
     .eyebrow {
       font-size: 0.7rem;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--muted);
       font-weight: 800;
       margin: 0 0 8px;
     }
 
-    .header-pill {
+    .tag {
       display: inline-flex;
       align-items: center;
       background: rgba(31, 99, 255, 0.09);
@@ -72,12 +72,12 @@
       border-radius: 999px;
       padding: 7px 10px;
       font-size: 0.72rem;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(1.9rem, 5vw, 2.8rem);
+      font-size: clamp(1.9rem, 5vw, 2.9rem);
       line-height: 1.08;
       letter-spacing: -0.05em;
     }
@@ -90,12 +90,12 @@
     }
 
     .summary-card {
+      position: relative;
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       padding: 16px 16px 14px;
-      position: relative;
       overflow: hidden;
     }
 
@@ -104,39 +104,104 @@
       position: absolute;
       inset: 0 0 auto 0;
       height: 4px;
-      background: linear-gradient(90deg, var(--primary), rgba(31,99,255,0.2));
+      background: linear-gradient(90deg, var(--primary), rgba(31,99,255,0.25));
     }
 
     .summary-label {
-      font-size: 0.72rem;
+      margin: 0 0 8px;
       color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin: 0 0 10px;
+      font-size: 0.7rem;
       font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     .summary-value {
       margin: 0;
-      font-size: clamp(1.15rem, 3vw, 1.5rem);
+      font-size: clamp(1.12rem, 2.8vw, 1.5rem);
       font-weight: 800;
       letter-spacing: -0.03em;
     }
 
     .card {
-      background: rgba(255,255,255,0.92);
+      background: rgba(255,255,255,0.96);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       padding: 18px 16px;
       margin-bottom: 18px;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(10px);
     }
 
     .card h2 {
-      margin: 0 0 16px;
-      font-size: 1.2rem;
+      margin: 0 0 14px;
+      font-size: 1.18rem;
       letter-spacing: -0.03em;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .search-input {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 12px 14px;
+      font-size: 0.98rem;
+      color: var(--text);
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: rgba(31,99,255,0.9);
+      box-shadow: 0 0 0 4px rgba(31,99,255,0.12);
+    }
+
+    .filter-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .action-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .btn:active { transform: translateY(1px); }
+
+    .primary-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      box-shadow: 0 14px 24px rgba(31,99,255,0.18);
+    }
+
+    .secondary-btn {
+      background: #edf3ff;
+      color: var(--primary-dark);
+      border: 1px solid #dbe9ff;
+    }
+
+    .danger-btn {
+      background: #fff0f0;
+      color: #b92d2d;
+      border: 1px solid #ffd7d7;
     }
 
     form {
@@ -148,7 +213,7 @@
       display: flex;
       flex-direction: column;
       gap: 7px;
-      font-size: 0.77rem;
+      font-size: 0.75rem;
       font-weight: 800;
       color: var(--muted);
       letter-spacing: 0.02em;
@@ -163,7 +228,7 @@
       font-size: 1rem;
       color: var(--text);
       outline: none;
-      transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+      transition: border-color .18s ease, box-shadow .18s ease;
     }
 
     input:focus, select:focus, textarea:focus {
@@ -182,32 +247,13 @@
       gap: 12px;
     }
 
-    .primary-btn {
-      margin-top: 6px;
-      border: none;
-      border-radius: 14px;
-      padding: 14px 16px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: #fff;
-      font-weight: 800;
-      font-size: 0.98rem;
-      box-shadow: 0 18px 30px rgba(31,99,255,0.18);
-    }
-
-    .toolbar {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
     .list {
       display: grid;
       gap: 12px;
     }
 
     .item {
-      background: linear-gradient(180deg, var(--panel) 0%, #ffffff 100%);
+      background: linear-gradient(180deg, #fbfdff 0%, #ffffff 100%);
       border: 1px solid var(--line);
       border-radius: 18px;
       padding: 14px;
@@ -224,7 +270,7 @@
 
     .item-name {
       margin: 0;
-      font-size: 1.02rem;
+      font-size: 1.04rem;
       font-weight: 800;
       letter-spacing: -0.02em;
     }
@@ -251,30 +297,30 @@
     .status-planerad {
       background: var(--primary-soft);
       color: var(--primary-dark);
-      border-color: #dbe9ff;
+      border-color: #dfeaff;
     }
 
     .status-pagar {
       background: var(--success-soft);
       color: var(--success);
-      border-color: #d4f0df;
+      border-color: #d8f4e3;
     }
 
     .status-pausad {
       background: var(--warning-soft);
       color: var(--warning);
-      border-color: #f6e0b7;
+      border-color: #f7e0b7;
     }
 
     .status-avslutad {
       background: var(--danger-soft);
       color: var(--danger);
-      border-color: #ffd6d6;
+      border-color: #ffd9d9;
     }
 
     .description {
       color: var(--muted);
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       line-height: 1.5;
       margin: 0 0 12px;
     }
@@ -295,7 +341,7 @@
 
     .mini-label {
       color: var(--muted);
-      font-size: 0.63rem;
+      font-size: 0.62rem;
       font-weight: 800;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -320,7 +366,7 @@
     }
 
     @media (max-width: 420px) {
-      .summary-grid, .grid-2, .toolbar, .item-grid {
+      .summary-grid, .grid-2, .filter-row, .item-grid {
         grid-template-columns: 1fr;
       }
 
@@ -337,7 +383,7 @@
         <p class="eyebrow">Kommunens initiativportfölj</p>
         <h1>Projekt &amp; satsningar</h1>
       </div>
-      <span class="header-pill">Live översikt</span>
+      <span class="tag">Översikt</span>
     </header>
 
     <section class="summary-grid">
@@ -359,6 +405,37 @@
       <div class="summary-card">
         <p class="summary-label">Aktiva</p>
         <p class="summary-value" id="aktiva">0</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Filtrera och sök</h2>
+
+      <div class="toolbar">
+        <input id="searchInput" class="search-input" type="text" placeholder="Sök på namn, kategori, avdelning eller ansvarig" />
+        <div class="filter-row">
+          <select id="statusFilter">
+            <option>Alla</option>
+            <option>Planerad</option>
+            <option>Pågår</option>
+            <option>Pausad</option>
+            <option>Avslutad</option>
+          </select>
+
+          <select id="kategoriFilter">
+            <option>Alla</option>
+            <option>Barn och unga</option>
+            <option>IT och digitalisering</option>
+            <option>Miljö</option>
+            <option>Samhällsbyggnad</option>
+            <option>Kultur</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <button class="btn secondary-btn" id="exportBtn" type="button">Exportera CSV</button>
+        <button class="btn danger-btn" id="resetBtn" type="button">Rensa data</button>
       </div>
     </section>
 
@@ -435,34 +512,12 @@
           <textarea id="beskrivning" placeholder="Kort beskrivning av initiativet..."></textarea>
         </label>
 
-        <button class="primary-btn" type="submit">Lägg till initiativ</button>
+        <button class="btn primary-btn" type="submit">Lägg till initiativ</button>
       </form>
     </section>
 
     <section class="card">
-      <div class="list-header">
-        <h2>Initiativlista</h2>
-      </div>
-
-      <div class="toolbar">
-        <select id="statusFilter">
-          <option>Alla</option>
-          <option>Planerad</option>
-          <option>Pågår</option>
-          <option>Pausad</option>
-          <option>Avslutad</option>
-        </select>
-
-        <select id="kategoriFilter">
-          <option>Alla</option>
-          <option>Barn och unga</option>
-          <option>IT och digitalisering</option>
-          <option>Miljö</option>
-          <option>Samhällsbyggnad</option>
-          <option>Kultur</option>
-        </select>
-      </div>
-
+      <h2>Initiativlista</h2>
       <div id="list" class="list"></div>
     </section>
   </div>
@@ -539,71 +594,133 @@
       document.getElementById('aktiva').textContent = aktiva;
     }
 
-    function renderList() {
+    function getFilteredProjects() {
+      const searchValue = document.getElementById('searchInput').value.trim().toLowerCase();
       const statusValue = document.getElementById('statusFilter').value;
       const categoryValue = document.getElementById('kategoriFilter').value;
 
-      const filtered = projects.filter(project => {
-        const statusMatch = statusValue === 'Alla' || project.status === statusValue;
-        const categoryMatch = categoryValue === 'Alla' || project.kategori === categoryValue;
-        return statusMatch && categoryMatch;
-      });
+      return projects.filter(project => {
+        const matchesStatus = statusValue === 'Alla' || project.status === statusValue;
+        const matchesCategory = categoryValue === 'Alla' || project.kategori === categoryValue;
+        const searchable = [
+          project.namn,
+          project.kategori,
+          project.avdelning,
+          project.ansvarigPerson,
+          project.beskrivning
+        ].join(' ').toLowerCase();
 
+        const matchesSearch = !searchValue || searchable.includes(searchValue);
+        return matchesStatus && matchesCategory && matchesSearch;
+      });
+    }
+
+    function renderList() {
+      const filtered = getFilteredProjects();
       const list = document.getElementById('list');
 
       if (!filtered.length) {
-        list.innerHTML = '<div class="item"><p class="description">Inga initiativ matchar filtret.</p></div>';
+        list.innerHTML = '<div class="item"><p class="description">Inga initiativ matchar din sökning eller filtrering.</p></div>';
         return;
       }
 
-      list.innerHTML = filtered.map(project => `
-        <div class="item">
-          <div class="item-top">
-            <div>
-              <p class="item-name">${project.namn}</p>
-              <div class="meta">${project.kategori} • ${project.avdelning || 'Ej angiven'}</div>
+      list.innerHTML = filtered.map(project => {
+        const remaining = Number(project.budget || 0) - Number(project.forbrukat || 0);
+        return `
+          <div class="item">
+            <div class="item-top">
+              <div>
+                <p class="item-name">${project.namn}</p>
+                <div class="meta">${project.kategori} • ${project.avdelning || 'Ej angiven'}</div>
+              </div>
+              <span class="status-badge ${statusClass(project.status)}">${project.status}</span>
             </div>
-            <span class="status-badge ${statusClass(project.status)}">${project.status}</span>
+
+            <p class="description">${project.beskrivning || 'Ingen beskrivning angiven.'}</p>
+
+            <div class="item-grid">
+              <div class="mini">
+                <div class="mini-label">Budget</div>
+                <div class="mini-value">${formatMoney(project.budget)}</div>
+              </div>
+
+              <div class="mini">
+                <div class="mini-label">Förbrukat</div>
+                <div class="mini-value">${formatMoney(project.forbrukat)}</div>
+              </div>
+            </div>
+
+            <div class="item-grid">
+              <div class="mini">
+                <div class="mini-label">Kvar</div>
+                <div class="mini-value">${formatMoney(remaining)}</div>
+              </div>
+
+              <div class="mini">
+                <div class="mini-label">Ansvarig</div>
+                <div class="mini-value">${project.ansvarigPerson || '-'}</div>
+              </div>
+            </div>
+
+            <div class="item-grid">
+              <div class="mini">
+                <div class="mini-label">Start</div>
+                <div class="mini-value">${project.startDatum || '-'}</div>
+              </div>
+
+              <div class="mini">
+                <div class="mini-label">Slut</div>
+                <div class="mini-value">${project.slutDatum || '-'}</div>
+              </div>
+            </div>
+
+            <button class="delete-btn" data-id="${project.id}">Ta bort</button>
           </div>
-
-          <p class="description">${project.beskrivning || 'Ingen beskrivning angiven.'}</p>
-
-          <div class="item-grid">
-            <div class="mini">
-              <div class="mini-label">Budget</div>
-              <div class="mini-value">${formatMoney(project.budget)}</div>
-            </div>
-
-            <div class="mini">
-              <div class="mini-label">Förbrukat</div>
-              <div class="mini-value">${formatMoney(project.forbrukat)}</div>
-            </div>
-          </div>
-
-          <div class="item-grid">
-            <div class="mini">
-              <div class="mini-label">Ansvarig</div>
-              <div class="mini-value">${project.ansvarigPerson || '-'}</div>
-            </div>
-
-            <div class="mini">
-              <div class="mini-label">Datum</div>
-              <div class="mini-value">${project.startDatum || '-'} → ${project.slutDatum || '-'}</div>
-            </div>
-          </div>
-
-          <button class="delete-btn" data-id="${project.id}">Ta bort</button>
-        </div>
-      `).join('');
+        `;
+      }).join('');
 
       document.querySelectorAll('.delete-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const id = Number(e.target.dataset.id);
-          projects = projects.filter(p => p.id !== id);
+        btn.addEventListener('click', event => {
+          const id = Number(event.target.dataset.id);
+          projects = projects.filter(project => project.id !== id);
           saveProjects();
           render();
         });
       });
+    }
+
+    function exportCSV() {
+      const rows = [
+        ['Namn', 'Kategori', 'Avdelning', 'Ansvarig', 'Status', 'Budget', 'Förbrukat', 'Kvar', 'Startdatum', 'Slutdatum', 'Beskrivning']
+      ];
+
+      projects.forEach(project => {
+        const kvar = Number(project.budget || 0) - Number(project.forbrukat || 0);
+        rows.push([
+          project.namn,
+          project.kategori,
+          project.avdelning,
+          project.ansvarigPerson,
+          project.status,
+          project.budget,
+          project.forbrukat,
+          kvar,
+          project.startDatum,
+          project.slutDatum,
+          project.beskrivning || ''
+        ]);
+      });
+
+      const csv = rows.map(row => row.map(value => `"${String(value ?? '').replace(/"/g, '""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.href = url;
+      link.download = 'kommunens-initiativportfolj.csv';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
     }
 
     function render() {
@@ -611,8 +728,8 @@
       renderList();
     }
 
-    document.getElementById('form').addEventListener('submit', function (e) {
-      e.preventDefault();
+    document.getElementById('form').addEventListener('submit', function (event) {
+      event.preventDefault();
 
       const namn = document.getElementById('namn').value.trim();
       if (!namn) return;
@@ -637,8 +754,17 @@
       render();
     });
 
+    document.getElementById('searchInput').addEventListener('input', renderList);
     document.getElementById('statusFilter').addEventListener('change', renderList);
     document.getElementById('kategoriFilter').addEventListener('change', renderList);
+    document.getElementById('exportBtn').addEventListener('click', exportCSV);
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      if (confirm('Är du säker på att du vill rensa all data?')) {
+        projects = [];
+        saveProjects();
+        render();
+      }
+    });
 
     render();
   </script>
