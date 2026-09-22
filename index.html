@@ -12,7 +12,7 @@
       --panel: #f9fbff;
       --text: #162233;
       --muted: #5d6d84;
-      --line: #dde9f8;
+      --line: #deeaf9;
       --primary: #1f63ff;
       --primary-dark: #174fd0;
       --primary-soft: #edf5ff;
@@ -56,7 +56,7 @@
 
     .eyebrow {
       font-size: 0.7rem;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--muted);
       font-weight: 800;
@@ -397,6 +397,90 @@
       cursor: pointer;
     }
 
+    .risk-box {
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(245,248,255,0.9));
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 9px 10px;
+      margin-top: 8px;
+    }
+
+    .risk-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .risk-label {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      font-weight: 800;
+    }
+
+    .risk-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 5px 8px;
+      font-size: 0.66rem;
+      font-weight: 800;
+      border: 1px solid transparent;
+    }
+
+    .risk-lag {
+      background: #edfdf3;
+      color: #1f8f5f;
+      border-color: #d7f0e0;
+    }
+
+    .risk-medel {
+      background: #fff7e8;
+      color: #b66c05;
+      border-color: #f7dfaa;
+    }
+
+    .risk-hog {
+      background: #fff0f0;
+      color: #c45151;
+      border-color: #ffdada;
+    }
+
+    .effect-box {
+      background: rgba(31,99,255,0.03);
+      border: 1px solid rgba(31,99,255,0.08);
+      border-radius: 12px;
+      padding: 9px 10px;
+      margin-top: 8px;
+    }
+
+    .effect-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .progress-wrap {
+      width: 100%;
+      background: #edf2f9;
+      border-radius: 999px;
+      height: 9px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), #6aa3ff);
+      border-radius: 999px;
+    }
+
     @media (max-width: 420px) {
       .summary-grid, .grid-2, .filter-row, .item-grid, .kpi-grid {
         grid-template-columns: 1fr;
@@ -554,6 +638,54 @@
           </label>
         </div>
 
+        <div class="grid-2">
+          <label>
+            Risknivå
+            <select id="riskNiva">
+              <option>Låg</option>
+              <option>Medel</option>
+              <option>Hög</option>
+            </select>
+          </label>
+
+          <label>
+            Effektstatus
+            <select id="effektStatus">
+              <option>På plan</option>
+              <option>Delvis uppnådd</option>
+              <option>Uppnådd</option>
+              <option>Ej startad</option>
+            </select>
+          </label>
+        </div>
+
+        <label>
+          Riskbeskrivning
+          <textarea id="riskBeskrivning" placeholder="Beskriv risk och konsekvens..."></textarea>
+        </label>
+
+        <label>
+          Riskåtgärd
+          <textarea id="riskAtgard" placeholder="Vilken åtgärd planeras?..."></textarea>
+        </label>
+
+        <label>
+          Effektmål / KPI
+          <input id="effektMal" type="text" placeholder="Ex: Minska antalet resor med bil med 15%" />
+        </label>
+
+        <div class="grid-2">
+          <label>
+            Basvärde
+            <input id="basVarde" type="number" value="0" />
+          </label>
+
+          <label>
+            Målvärde
+            <input id="malVarde" type="number" value="0" />
+          </label>
+        </div>
+
         <label>
           Beskrivning
           <textarea id="beskrivning" placeholder="Kort beskrivning av initiativet..."></textarea>
@@ -584,6 +716,13 @@
         forbrukat: 210000,
         startDatum: '2026-01-15',
         slutDatum: '2026-12-31',
+        riskNiva: 'Medel',
+        riskBeskrivning: 'Trafikbelastning och omstrukturering i centrala kvarter kan påverka genomförandet.',
+        riskAtgard: 'Fördjupad samordning med skolor, fastighetsägare och trafikplanering.',
+        effektMal: 'Minska olycksrisk och öka tryggheten i skolvägar',
+        basVarde: 70,
+        malVarde: 90,
+        effektStatus: 'På plan',
         beskrivning: 'Ökad trygghet runt skolvägar i centrala bostadsområden.'
       },
       {
@@ -597,6 +736,13 @@
         forbrukat: 120000,
         startDatum: '2026-03-01',
         slutDatum: '2027-06-30',
+        riskNiva: 'Låg',
+        riskBeskrivning: 'Långsammare adoption än planerat om tjänsten inte är lättillgänglig för medborgarna.',
+        riskAtgard: 'User testing och justering av digitala tjänster innan lansering.',
+        effektMal: 'Öka digital serviceanvändning bland medborgare',
+        basVarde: 45,
+        malVarde: 75,
+        effektStatus: 'Delvis uppnådd',
         beskrivning: 'Förbättra digitala tjänster för medborgare och verksamheter.'
       },
       {
@@ -610,6 +756,13 @@
         forbrukat: 300000,
         startDatum: '2025-05-10',
         slutDatum: '2026-02-28',
+        riskNiva: 'Hög',
+        riskBeskrivning: 'Väderförhållanden och leveransförseningar kunde påverka genomförandet.',
+        riskAtgard: 'Byggfasplanering och reservtidsplan.',
+        effektMal: 'Minska klimatpåverkan och förbättra grönstruktur',
+        basVarde: 40,
+        malVarde: 70,
+        effektStatus: 'Uppnådd',
         beskrivning: 'Trädplantering och grön struktur runt gångvägar och cykelvägar.'
       }
     ];
@@ -627,6 +780,12 @@
     function statusClass(status) {
       const normalized = status.toLowerCase().replace(/\s+/g, '-');
       return 'status-' + normalized;
+    }
+
+    function riskClass(level) {
+      if (level === 'Låg') return 'risk-lag';
+      if (level === 'Medel') return 'risk-medel';
+      return 'risk-hog';
     }
 
     function renderSummary() {
@@ -660,7 +819,9 @@
           project.kategori,
           project.avdelning,
           project.ansvarigPerson,
-          project.beskrivning
+          project.beskrivning,
+          project.riskBeskrivning,
+          project.effektMal
         ].join(' ').toLowerCase();
 
         const matchesSearch = !searchValue || searchable.includes(searchValue);
@@ -679,6 +840,10 @@
 
       list.innerHTML = filtered.map(project => {
         const remaining = Number(project.budget || 0) - Number(project.forbrukat || 0);
+        const baseline = Number(project.basVarde ?? 0);
+        const target = Number(project.malVarde ?? 0);
+        const progress = target > 0 ? Math.min(100, Math.round(((baseline + target) / 2) / target * 100)) : 0;
+
         return `
           <div class="item">
             <div class="item-top">
@@ -715,15 +880,33 @@
               </div>
             </div>
 
-            <div class="item-grid">
-              <div class="mini">
-                <div class="mini-label">Start</div>
-                <div class="mini-value">${project.startDatum || '-'}</div>
+            <div class="risk-box">
+              <div class="risk-line">
+                <span class="risk-label">Risk</span>
+                <span class="risk-pill ${riskClass(project.riskNiva || 'Låg')}">${project.riskNiva || 'Låg'}</span>
               </div>
+              <div class="risk-label">Beskrivning</div>
+              <div class="description" style="margin: 6px 0 0;">${project.riskBeskrivning || 'Ingen riskbeskrivning.'}</div>
+              <div class="risk-line" style="margin-top:8px;">
+                <span class="risk-label">Åtgärd</span>
+              </div>
+              <div class="description" style="margin: 6px 0 0;">${project.riskAtgard || 'Ingen åtgärd angiven.'}</div>
+            </div>
 
-              <div class="mini">
-                <div class="mini-label">Slut</div>
-                <div class="mini-value">${project.slutDatum || '-'}</div>
+            <div class="effect-box">
+              <div class="effect-line">
+                <span><strong>KPI</strong></span>
+                <span>${project.effektStatus || 'Ej satt'}</span>
+              </div>
+              <div class="effect-line">
+                <span>${project.effektMal || 'Inget effektmål'}</span>
+              </div>
+              <div class="effect-line">
+                <span>Bas: ${baseline}</span>
+                <span>Mål: ${target}</span>
+              </div>
+              <div class="progress-wrap">
+                <div class="progress-bar" style="width: ${progress}%"></div>
               </div>
             </div>
 
@@ -744,7 +927,7 @@
 
     function exportCSV() {
       const rows = [
-        ['Namn', 'Kategori', 'Avdelning', 'Ansvarig', 'Status', 'Budget', 'Förbrukat', 'Kvar', 'Startdatum', 'Slutdatum', 'Beskrivning']
+        ['Namn', 'Kategori', 'Avdelning', 'Ansvarig', 'Status', 'Budget', 'Förbrukat', 'Kvar', 'Risknivå', 'Riskbeskrivning', 'Riskåtgärd', 'Effektmål', 'Basvärde', 'Målvärde', 'Effektstatus', 'Startdatum', 'Slutdatum', 'Beskrivning']
       ];
 
       projects.forEach(project => {
@@ -758,6 +941,13 @@
           project.budget,
           project.forbrukat,
           kvar,
+          project.riskNiva || 'Låg',
+          project.riskBeskrivning || '',
+          project.riskAtgard || '',
+          project.effektMal || '',
+          project.basVarde || 0,
+          project.malVarde || 0,
+          project.effektStatus || 'Ej satt',
           project.startDatum,
           project.slutDatum,
           project.beskrivning || ''
@@ -798,6 +988,13 @@
         forbrukat: Number(document.getElementById('forbrukat').value || 0),
         startDatum: document.getElementById('startDatum').value,
         slutDatum: document.getElementById('slutDatum').value,
+        riskNiva: document.getElementById('riskNiva').value,
+        riskBeskrivning: document.getElementById('riskBeskrivning').value.trim(),
+        riskAtgard: document.getElementById('riskAtgard').value.trim(),
+        effektMal: document.getElementById('effektMal').value.trim(),
+        basVarde: Number(document.getElementById('basVarde').value || 0),
+        malVarde: Number(document.getElementById('malVarde').value || 0),
+        effektStatus: document.getElementById('effektStatus').value,
         beskrivning: document.getElementById('beskrivning').value.trim()
       };
 
