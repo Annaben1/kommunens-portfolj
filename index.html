@@ -279,6 +279,13 @@
       gap: 12px;
     }
 
+    .form-help, .notice { color: var(--muted); line-height: 1.5; }
+    .notice:empty { display: none; }
+    .item { overflow-wrap: anywhere; }
+    .description { white-space: pre-wrap; }
+    summary { cursor: pointer; font-weight: 800; margin-bottom: 12px; }
+    .optional-fields { display: grid; gap: 12px; }
+
     .list {
       display: grid;
       gap: 12px;
@@ -502,6 +509,7 @@
       <span class="tag">Dashboard</span>
     </header>
 
+    <p id="feedback" class="notice" role="status" tabindex="-1"></p>
     <section class="summary-grid">
       <div class="summary-card">
         <p class="summary-label">Total budget</p>
@@ -543,9 +551,9 @@
       <h2>Filtrera och sök</h2>
 
       <div class="toolbar">
-        <input id="searchInput" class="search-input" type="text" placeholder="Sök på namn, kategori, avdelning eller ansvarig" />
+        <input id="searchInput" class="search-input" type="text" aria-label="Sök initiativ" placeholder="Sök på initiativ, verksamhet, tjänsteägare eller mål" />
         <div class="filter-row">
-          <select id="statusFilter">
+          <select id="statusFilter" aria-label="Filtrera på status">
             <option>Alla</option>
             <option>Planerad</option>
             <option>Pågår</option>
@@ -553,7 +561,7 @@
             <option>Avslutad</option>
           </select>
 
-          <select id="kategoriFilter">
+          <select id="kategoriFilter" aria-label="Filtrera på kategori">
             <option>Alla</option>
             <option>Barn och unga</option>
             <option>IT och digitalisering</option>
@@ -573,10 +581,11 @@
     <section class="card">
       <h2>Lägg till initiativ</h2>
 
+      <p class="form-help">Fyll i grunduppgifterna för ditt initiativ. Alla fält utom kategori och kompletterande uppgifter är obligatoriska. Initiativen sparas bara i den här webbläsaren och delas inte med andra. Exportera CSV för att spara en kopia.</p>
       <form id="form">
         <label>
-          Namn
-          <input id="namn" type="text" placeholder="Ex: Tryggare skolvägar" />
+          Initiativ
+          <input id="namn" type="text" required maxlength="160" placeholder="Ex: Tryggare skolvägar" />
         </label>
 
         <div class="grid-2">
@@ -604,93 +613,110 @@
 
         <div class="grid-2">
           <label>
-            Avdelning
-            <input id="avdelning" type="text" placeholder="Ex: Samhällsbyggnad" />
+            Verksamhet
+            <input id="avdelning" type="text" required maxlength="160" placeholder="Ex: Samhällsbyggnad" />
           </label>
 
           <label>
-            Ansvarig
-            <input id="ansvarig" type="text" placeholder="Ex: Anna Nilsson" />
-          </label>
-        </div>
-
-        <div class="grid-2">
-          <label>
-            Budget (kr)
-            <input id="budget" type="number" value="0" />
-          </label>
-
-          <label>
-            Förbrukat (kr)
-            <input id="forbrukat" type="number" value="0" />
-          </label>
-        </div>
-
-        <div class="grid-2">
-          <label>
-            Startdatum
-            <input id="startDatum" type="date" />
-          </label>
-
-          <label>
-            Slutdatum
-            <input id="slutDatum" type="date" />
-          </label>
-        </div>
-
-        <div class="grid-2">
-          <label>
-            Risknivå
-            <select id="riskNiva">
-              <option>Låg</option>
-              <option>Medel</option>
-              <option>Hög</option>
-            </select>
-          </label>
-
-          <label>
-            Effektstatus
-            <select id="effektStatus">
-              <option>På plan</option>
-              <option>Delvis uppnådd</option>
-              <option>Uppnådd</option>
-              <option>Ej startad</option>
-            </select>
+            Tjänsteägare
+            <input id="ansvarig" type="text" required maxlength="160" placeholder="Ex: Anna Nilsson" />
           </label>
         </div>
 
         <label>
-          Riskbeskrivning
-          <textarea id="riskBeskrivning" placeholder="Beskriv risk och konsekvens..."></textarea>
+          Mål
+          <textarea id="mal" required maxlength="3000" placeholder="Vad vill verksamheten uppnå?"></textarea>
         </label>
-
         <label>
-          Riskåtgärd
-          <textarea id="riskAtgard" placeholder="Vilken åtgärd planeras?..."></textarea>
+          Nuläge
+          <textarea id="nulage" required maxlength="3000" placeholder="Hur arbetar ni idag och vilket behov vill ni lösa?"></textarea>
         </label>
-
         <label>
-          Effektmål / KPI
-          <input id="effektMal" type="text" placeholder="Ex: Minska antalet resor med bil med 15%" />
+          Förväntad nytta
+          <textarea id="forvantadNytta" required maxlength="3000" placeholder="Vilken förbättring väntas, och för vem?"></textarea>
         </label>
+        <details>
+          <summary>Kompletterande uppgifter (valfritt)</summary>
+          <div class="optional-fields">
+            <div class="grid-2">
+              <label>
+                Budget (kr)
+                <input id="budget" type="number" min="0" step="any" value="0" />
+              </label>
 
-        <div class="grid-2">
-          <label>
-            Basvärde
-            <input id="basVarde" type="number" value="0" />
-          </label>
+              <label>
+                Förbrukat (kr)
+                <input id="forbrukat" type="number" min="0" step="any" value="0" />
+              </label>
+            </div>
 
-          <label>
-            Målvärde
-            <input id="malVarde" type="number" value="0" />
-          </label>
-        </div>
+            <div class="grid-2">
+              <label>
+                Startdatum
+                <input id="startDatum" type="date" />
+              </label>
 
-        <label>
-          Beskrivning
-          <textarea id="beskrivning" placeholder="Kort beskrivning av initiativet..."></textarea>
-        </label>
+              <label>
+                Slutdatum
+                <input id="slutDatum" type="date" />
+              </label>
+            </div>
 
+            <div class="grid-2">
+              <label>
+                Risknivå
+                <select id="riskNiva">
+                  <option>Låg</option>
+                  <option>Medel</option>
+                  <option>Hög</option>
+                </select>
+              </label>
+
+              <label>
+                Effektstatus
+                <select id="effektStatus">
+                  <option>På plan</option>
+                  <option>Delvis uppnådd</option>
+                  <option>Uppnådd</option>
+                  <option>Ej startad</option>
+                </select>
+              </label>
+            </div>
+
+            <label>
+              Riskbeskrivning
+              <textarea id="riskBeskrivning" placeholder="Beskriv risk och konsekvens..."></textarea>
+            </label>
+
+            <label>
+              Riskåtgärd
+              <textarea id="riskAtgard" placeholder="Vilken åtgärd planeras?..."></textarea>
+            </label>
+
+            <label>
+              Effektmål / KPI
+              <input id="effektMal" type="text" placeholder="Ex: Minska antalet resor med bil med 15%" />
+            </label>
+
+            <div class="grid-2">
+              <label>
+                Basvärde
+                <input id="basVarde" type="number" value="0" />
+              </label>
+
+              <label>
+                Målvärde
+                <input id="malVarde" type="number" value="0" />
+              </label>
+            </div>
+
+            <label>
+              Beskrivning
+              <textarea id="beskrivning" placeholder="Kort beskrivning av initiativet..."></textarea>
+            </label>
+
+          </div>
+        </details>
         <button class="btn primary-btn" type="submit">Lägg till initiativ</button>
       </form>
     </section>
@@ -767,10 +793,46 @@
       }
     ];
 
-    let projects = JSON.parse(localStorage.getItem(storageKey)) || initialProjects;
+    let storageReadable = true;
+    function notify(message) {
+      document.getElementById('feedback').textContent = message;
+    }
+    function loadProjects() {
+      try {
+        const saved = localStorage.getItem(storageKey);
+        if (saved === null) return structuredClone(initialProjects);
+        const parsed = JSON.parse(saved);
+        if (!Array.isArray(parsed) || parsed.some(p => !p || typeof p !== 'object' ||
+            typeof p.namn !== 'string' || typeof p.status !== 'string' ||
+            !['string', 'number'].includes(typeof p.id))) throw new Error('Invalid data');
+        return parsed;
+      } catch (error) {
+        storageReadable = false;
+        notify('Sparade uppgifter kunde inte läsas. Ingen data har skrivits över. Kontrollera webbläsarens lagring innan du försöker igen.');
+        return [];
+      }
+    }
+    let projects = loadProjects();
 
-    function saveProjects() {
-      localStorage.setItem(storageKey, JSON.stringify(projects));
+    function saveProjects(nextProjects) {
+      if (!storageReadable) {
+        notify('Kan inte spara eftersom tidigare data inte kunde läsas. Dina formuläruppgifter finns kvar.');
+        return false;
+      }
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(nextProjects));
+        projects = nextProjects;
+        return true;
+      } catch (error) {
+        notify('Kunde inte spara. Lagringen kan vara full eller blockerad. Dina formuläruppgifter finns kvar.');
+        return false;
+      }
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      })[char]);
     }
 
     function formatMoney(num) {
@@ -778,8 +840,7 @@
     }
 
     function statusClass(status) {
-      const normalized = status.toLowerCase().replace(/\s+/g, '-');
-      return 'status-' + normalized;
+      return { Planerad: 'status-planerad', Pågår: 'status-pagar', Pausad: 'status-pausad', Avslutad: 'status-avslutad' }[status] || 'status-planerad';
     }
 
     function riskClass(level) {
@@ -821,7 +882,10 @@
           project.ansvarigPerson,
           project.beskrivning,
           project.riskBeskrivning,
-          project.effektMal
+          project.effektMal,
+          project.mal,
+          project.nulage,
+          project.forvantadNytta
         ].join(' ').toLowerCase();
 
         const matchesSearch = !searchValue || searchable.includes(searchValue);
@@ -844,6 +908,7 @@
         const target = Number(project.malVarde ?? 0);
         const progress = target > 0 ? Math.min(100, Math.round(((baseline + target) / 2) / target * 100)) : 0;
 
+        project = Object.fromEntries(Object.entries(project).map(([key, value]) => [key, typeof value === 'number' ? value : escapeHTML(value)]));
         return `
           <div class="item">
             <div class="item-top">
@@ -875,11 +940,19 @@
               </div>
 
               <div class="mini">
-                <div class="mini-label">Ansvarig</div>
+                <div class="mini-label">Tjänsteägare</div>
                 <div class="mini-value">${project.ansvarigPerson || '-'}</div>
               </div>
             </div>
 
+            <div class="effect-box">
+              <div class="mini-label">Mål</div>
+              <p class="description">${project.mal || project.effektMal || 'Ej angivet'}</p>
+              <div class="mini-label">Nuläge</div>
+              <p class="description">${project.nulage || 'Ej angivet'}</p>
+              <div class="mini-label">Förväntad nytta</div>
+              <p class="description">${project.forvantadNytta || 'Ej angiven'}</p>
+            </div>
             <div class="risk-box">
               <div class="risk-line">
                 <span class="risk-label">Risk</span>
@@ -917,17 +990,21 @@
 
       document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', event => {
-          const id = Number(event.target.dataset.id);
-          projects = projects.filter(project => project.id !== id);
-          saveProjects();
+          const id = event.target.dataset.id;
+          if (!saveProjects(projects.filter(project => String(project.id) !== id))) return;
           render();
         });
       });
     }
 
+    function csvValue(value) {
+      const text = String(value ?? '');
+      return typeof value === 'string' && /^[\s]*[=+@-]/.test(text) ? "'" + text : text;
+    }
+
     function exportCSV() {
       const rows = [
-        ['Namn', 'Kategori', 'Avdelning', 'Ansvarig', 'Status', 'Budget', 'Förbrukat', 'Kvar', 'Risknivå', 'Riskbeskrivning', 'Riskåtgärd', 'Effektmål', 'Basvärde', 'Målvärde', 'Effektstatus', 'Startdatum', 'Slutdatum', 'Beskrivning']
+        ['Namn', 'Kategori', 'Verksamhet', 'Tjänsteägare', 'Status', 'Budget', 'Förbrukat', 'Kvar', 'Risknivå', 'Riskbeskrivning', 'Riskåtgärd', 'Effektmål', 'Basvärde', 'Målvärde', 'Effektstatus', 'Startdatum', 'Slutdatum', 'Beskrivning', 'Mål', 'Nuläge', 'Förväntad nytta']
       ];
 
       projects.forEach(project => {
@@ -950,11 +1027,14 @@
           project.effektStatus || 'Ej satt',
           project.startDatum,
           project.slutDatum,
-          project.beskrivning || ''
+          project.beskrivning || '',
+          project.mal || project.effektMal || '',
+          project.nulage || '',
+          project.forvantadNytta || ''
         ]);
       });
 
-      const csv = rows.map(row => row.map(value => `"${String(value ?? '').replace(/"/g, '""')}"`).join(',')).join('\n');
+      const csv = rows.map(row => row.map(value => `"${csvValue(value).replace(/"/g, '""')}"`).join(',')).join('\n');
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -975,11 +1055,22 @@
       event.preventDefault();
 
       const namn = document.getElementById('namn').value.trim();
-      if (!namn) return;
+      for (const id of ['namn', 'avdelning', 'ansvarig', 'mal', 'nulage', 'forvantadNytta']) {
+        const field = document.getElementById(id);
+        field.setCustomValidity(field.value.trim() ? '' : 'Fyll i detta fält.');
+      }
+      if (!this.reportValidity()) return;
+      const start = document.getElementById('startDatum').value;
+      const end = document.getElementById('slutDatum');
+      end.setCustomValidity(start && end.value && end.value < start ? 'Slutdatum får inte vara före startdatum.' : '');
+      if (!this.reportValidity()) return;
 
       const project = {
-        id: Date.now(),
+        id: crypto.randomUUID(),
         namn,
+        mal: document.getElementById('mal').value.trim(),
+        nulage: document.getElementById('nulage').value.trim(),
+        forvantadNytta: document.getElementById('forvantadNytta').value.trim(),
         kategori: document.getElementById('kategori').value,
         avdelning: document.getElementById('avdelning').value.trim(),
         ansvarigPerson: document.getElementById('ansvarig').value.trim(),
@@ -998,11 +1089,24 @@
         beskrivning: document.getElementById('beskrivning').value.trim()
       };
 
-      projects.unshift(project);
-      saveProjects();
+      if (!saveProjects([project, ...projects])) return;
+      document.getElementById('searchInput').value = '';
+      document.getElementById('statusFilter').value = 'Alla';
+      document.getElementById('kategoriFilter').value = 'Alla';
       document.getElementById('form').reset();
       render();
+      notify('Initiativet ”' + namn + '” har sparats i den här webbläsaren och visas överst i portföljen. Sökning och filter har återställts.');
+      document.getElementById('feedback').focus();
     });
+
+    document.getElementById('form').addEventListener('input', event => {
+      event.target.setCustomValidity?.('');
+      document.getElementById('slutDatum').setCustomValidity('');
+    });
+    document.getElementById('form').addEventListener('invalid', event => {
+      const details = event.target.closest('details');
+      if (details) details.open = true;
+    }, true);
 
     document.getElementById('searchInput').addEventListener('input', renderList);
     document.getElementById('statusFilter').addEventListener('change', renderList);
@@ -1010,8 +1114,7 @@
     document.getElementById('exportBtn').addEventListener('click', exportCSV);
     document.getElementById('resetBtn').addEventListener('click', () => {
       if (confirm('Är du säker på att du vill rensa all data?')) {
-        projects = [];
-        saveProjects();
+        if (!saveProjects([])) return;
         render();
       }
     });
