@@ -1,0 +1,6 @@
+{
+  "name": "kommunens-portfolj",
+  "private": true,
+  "scripts": { "test": "node tests/registration.cjs" },
+  "devDependencies": { "playwright": "1.62.1" }
+}
